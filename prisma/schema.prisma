@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String          @id @default(uuid())
+  email               String          @unique
+  password            String
+  isDeleted           Boolean         @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+  createdTours        Tour[]          @relation("CreatedTours")
+  updatedTours        Tour[]          @relation("UpdatedTours")
+  createdServices     Service[]       @relation("CreatedServices")
+  updatedServices     Service[]       @relation("UpdatedServices")
+  createdSchedules    Schedule[]      @relation("CreatedSchedules")
+  updatedSchedules    Schedule[]      @relation("UpdatedSchedules")
+  createdNews         News[]          @relation("CreatedNews")
+  updatedNews         News[]          @relation("UpdatedNews")
+  systemSettings      SystemSetting[] @relation("SystemSettingUpdatedBy")
+  createdMedia        Media[]         @relation("CreatedMedia")
+}
+
+model SystemSetting {
+  id            String    @id @default(uuid())
+  name          String?
+  address       String?
+  phone         String?
+  hotline       String?
+  fax           String?
+  taxCode       String?
+  email         String?
+  sliders       String?
+  vouchers      String?
+  linkGoogleMap String?
+  updatedAt     DateTime? @updatedAt
+  updatedBy     User?     @relation("SystemSettingUpdatedBy", fields: [updatedById], references: [id])
+  updatedById   String?
+}
+
+enum TourType {
+  VIETNAMTOUR
+  GLOBALTOUR
+  COMBOTOUR
+}
+
+enum RegionType {
+  NORTH
+  CENTRAL
+  SOUTH
+  OTHER
+  EUROPE
+  ASIA
+  MIDDLE_EAST
+  NORTH_AMERICA
+  SOUTH_AMERICA
+  AFRICA
+  OCEANIA
+}
+
+model CategoryTour {
+  id         String      @id
+  name       String
+  searchName String?
+  isDeleted  Boolean     @default(false)
+  regionType RegionType? @default(OTHER)
+  tourType   TourType
+  tours      Tour[]
+}
+
+model Tour {
+  id            String       @id @default(uuid())
+  slug          String       @unique
+  title         String
+  searchTitle   String
+  content       String
+  subContent    String?
+  thumbnail     String?
+  price         Int
+  departure     String
+  departureDate DateTime
+  remaining     Int
+  duration      String
+  priority      Int          @default(0)
+  categoryId    String
+  category      CategoryTour @relation(fields: [categoryId], references: [id])
+  vehicle       String
+  isCombo       Boolean?     @default(false)
+  isDeleted     Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime?    @updatedAt
+  createdBy     User         @relation("CreatedTours", fields: [createdById], references: [id])
+  createdById   String
+  updatedBy     User         @relation("UpdatedTours", fields: [updatedById], references: [id])
+  updatedById   String
+}
+
+enum ServiceType {
+  TICKET
+  CARRENTAL
+  VISA
+  PASSPORT
+  BOOKING
+}
+
+model Service {
+  id          String      @id @default(uuid())
+  slug        String      @unique
+  title       String
+  searchTitle String
+  content     String
+  subContent  String?
+  thumbnail   String?
+  price       Int         @default(0)
+  priority    Int         @default(0)
+  serviceType ServiceType
+  isDeleted   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  createdBy   User        @relation("CreatedServices", fields: [createdById], references: [id])
+  createdById String
+  updatedBy   User        @relation("UpdatedServices", fields: [updatedById], references: [id])
+  updatedById String
+}
+
+model Schedule {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  title       String
+  searchTitle String
+  content     String
+  subContent  String?
+  thumbnail   String?
+  priority    Int       @default(0)
+  type        TourType
+  isDeleted   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  createdBy   User      @relation("CreatedSchedules", fields: [createdById], references: [id])
+  createdById String
+  updatedBy   User      @relation("UpdatedSchedules", fields: [updatedById], references: [id])
+  updatedById String
+}
+
+enum NewsType {
+  NEWS
+  RECRUITMENT
+  EVENT
+}
+
+model News {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  title       String
+  searchTitle String
+  content     String
+  subContent  String?
+  thumbnail   String?
+  priority    Int       @default(0)
+  isDeleted   Boolean   @default(false)
+  type        NewsType
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  createdBy   User      @relation("CreatedNews", fields: [createdById], references: [id])
+  createdById String
+  updatedBy   User      @relation("UpdatedNews", fields: [updatedById], references: [id])
+  updatedById String
+}
+
+model Media {
+  id          String    @id @default(uuid())
+  mediaUrl    String    @unique
+  mediaType   MediaType
+  createdAt   DateTime  @default(now())
+  createdBy   User      @relation("CreatedMedia", fields: [createdById], references: [id])
+  createdById String
+}
+
+enum MediaType {
+  VIDEO
+  IMAGE
+}
