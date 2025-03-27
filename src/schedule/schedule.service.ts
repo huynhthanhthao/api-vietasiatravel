@@ -79,13 +79,6 @@ export class ScheduleService {
 
     const schedules = await this.prisma.schedule.findMany({
       where: whereConditions,
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        thumbnail: true,
-        subContent: true,
-      },
       orderBy: sortCriteria,
       skip,
       take,
