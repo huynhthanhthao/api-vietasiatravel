@@ -124,6 +124,7 @@ export class TourService {
         updatedAt: true,
         priority: true,
         createdAt: true,
+        unit: true,
         category: {
           select: {
             id: true,

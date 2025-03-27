@@ -80,6 +80,7 @@ model Tour {
   id            String       @id @default(uuid())
   slug          String       @unique
   title         String
+  unit          String       @default("VND")
   searchTitle   String
   content       String
   subContent    String?
@@ -120,6 +121,7 @@ model Service {
   subContent  String?
   thumbnail   String?
   price       Int         @default(0)
+  unit        String      @default("VND")
   priority    Int         @default(0)
   serviceType ServiceType
   isDeleted   Boolean     @default(false)

@@ -43,8 +43,7 @@ export class CreateTourDto {
   @IsString()
   vehicle: string;
 
-  // @IsBoolean()
-  // isCombo?: boolean;
+  unit?: string;
 }
 
 export class UpdateTourDto extends PartialType(CreateTourDto) {}

@@ -89,6 +89,7 @@ export class ServiceService {
         serviceType: true,
         price: true,
         priority: true,
+        unit: true,
         createdAt: true,
       },
       orderBy: sortCriteria,

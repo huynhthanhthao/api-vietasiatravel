@@ -26,6 +26,8 @@ export class CreateServiceDto {
   priority?: number = 0;
 
   serviceType: ServiceType;
+
+  unit: string;
 }
 
 export class UpdateServiceDto {
