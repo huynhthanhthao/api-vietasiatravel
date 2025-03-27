@@ -69,9 +69,10 @@ export class ServiceService {
 
     const sortCriteria = [];
     if (sort === 'date') {
-      sortCriteria.push({ updatedAt: 'desc' });
+      sortCriteria.push({ createdAt: 'desc' });
     } else {
       sortCriteria.push({ priority: 'desc' });
+      sortCriteria.push({ createdAt: 'desc' });
     }
 
     const skip = (page - 1) * pageSize;
@@ -87,6 +88,8 @@ export class ServiceService {
         subContent: true,
         serviceType: true,
         price: true,
+        priority: true,
+        createdAt: true,
       },
       orderBy: sortCriteria,
       skip,
