@@ -126,6 +126,7 @@ export class TourService {
             id: true,
             name: true,
             regionType: true,
+            tourType: true,
           },
         },
         isCombo: true,
@@ -157,9 +158,10 @@ export class TourService {
       include: {
         category: {
           select: {
+            id: true,
             name: true,
-            tourType: true,
             regionType: true,
+            tourType: true,
           },
         },
         createdBy: {
