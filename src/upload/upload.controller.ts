@@ -93,6 +93,9 @@ export class UploadController {
           callback(null, filename);
         },
       }),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
     }),
   )
   async uploadServiceThumbnail(
@@ -123,6 +126,9 @@ export class UploadController {
           callback(null, filename);
         },
       }),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
     }),
   )
   async uploadNewsThumbnail(
@@ -153,6 +159,9 @@ export class UploadController {
           callback(null, filename);
         },
       }),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
     }),
   )
   async uploadScheduleThumbnail(
@@ -183,6 +192,9 @@ export class UploadController {
           callback(null, filename);
         },
       }),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+      },
     }),
   )
   async uploadProductImages(
